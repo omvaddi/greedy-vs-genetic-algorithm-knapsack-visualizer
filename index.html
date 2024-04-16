@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knapsack Problem</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .highlighted {
+            outline: 2px solid green;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="startBtn" onclick="startHighlighting()">Start Highlighting</button>
+        <table id="matrix"></table>
+    </div>
+    <script>
+        async function startHighlighting() {
+            const response = await fetch('/highlight', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    matrix: generateMatrix()
+                })
+            });
+            const { highlighted_cells } = await response.json();
+            highlightCells(highlighted_cells);
+        }
+
+        function generateMatrix() {
+            const matrix = [];
+            for (let i = 0; i < 50; i++) {
+                const row = [];
+                for (let j = 0; j < 50; j++) {
+                    // Generate random value and weight for each cell
+                    const value = Math.floor(Math.random() * 10) + 1;
+                    const weight = Math.floor(Math.random() * 10) + 1;
+                    row.push([value, weight]); // Push tuple containing value and weight
+                }
+                matrix.push(row);
+            }
+            return matrix;
+        }
+
+        function highlightCells(cells) {
+            const table = document.getElementById('matrix');
+            cells.forEach(([row, col]) => {
+                table.rows[row].cells[col].classList.add('highlighted');
+            });
+        }
+
+        // Display the matrix on page load
+        window.onload = function() {
+            const matrix = generateMatrix();
+            const table = document.getElementById('matrix');
+            matrix.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                row.forEach((cell, colIndex) => {
+                    const td = document.createElement('td');
+                    td.textContent = `V: ${cell[0]}, W: ${cell[1]}`;
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+        };
+    </script>
+</body>
+</html>
