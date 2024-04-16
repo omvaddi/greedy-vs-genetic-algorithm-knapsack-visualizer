@@ -10,7 +10,7 @@ class Knapsack:
         self.dimensions = 4
         self.greedy_sol = []
         self.create_data()
-        self.weight = 50
+        self.weight = 30
 
 
     def create_data(self):

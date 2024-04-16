@@ -17,16 +17,23 @@
         th {
             background-color: #f2f2f2;
         }
+        .highlight {
+            background-color: yellow;
+        }
     </style>
 </head>
 <body>
-    <h2>Knapsack Data</h2>
+    <h2>Greedy Algorithm</h2>
     <table>
         <tbody>
-            {% for row in knapsack.items %}
+            {% for i in range(knapsack.dimensions) %}
             <tr>
-                {% for element in row %}
-                <td>W: {{ element[0] }},  V: {{element[1] }}</td>
+                {% for j in range(knapsack.dimensions) %}
+                    {% if knapsack.greedy_sol[i][j] == True %}
+                        <td class="highlight">W: {{ knapsack.items[i][j][0] }},  V: {{knapsack.items[i][j][1] }}</td>
+                    {% else %}
+                        <td> W: {{ knapsack.items[i][j][0] }},  V: {{knapsack.items[i][j][1] }}</td>
+                    {% endif %}
                 {% endfor %}
             </tr>
             {% endfor %}
