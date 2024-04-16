@@ -3,51 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knapsack Problem Solver</title>
+    <title>Knapsack Data</title>
     <style>
-        /* Style for table cells */
         table {
             border-collapse: collapse;
+            width: 100%;
         }
-        td {
-            border: 1px solid black;
-            padding: 5px;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
         }
-        /* Highlight style */
-        .highlight {
-            border: 5px solid green;
+        th {
+            background-color: #f2f2f2;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <button id="solve-btn">Solve Knapsack</button>
-    <table id="matrix">
-        {% for row in matrix %}
+    <h2>Knapsack Data</h2>
+    <table>
+        <tbody>
+            {% for row in knapsack.items %}
             <tr>
-            {% for weight, value in row %}
-                <td>W: {{ weight }} V: {{ value }}</td>
-            {% endfor %}
+                {% for element in row %}
+                <td>W: {{ element[0] }},  V: {{element[1] }}</td>
+                {% endfor %}
             </tr>
-        {% endfor %}
+            {% endfor %}
+        </tbody>
     </table>
-
-    <script>
-        document.getElementById('solve-btn').addEventListener('click', function() {
-            axios.post('/solve_knapsack', { matrix: {{ matrix | tojson }} })
-                .then(function(response) {
-                    var best_items = response.data.best_items;
-                    for (var i = 0; i < best_items.length; i++) {
-                        var row = best_items[i][0];
-                        var col = best_items[i][1];
-                        // Add 'highlight' class to the cell
-                        document.getElementById('matrix').rows[row].cells[col].classList.add('highlight');
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Error:', error);
-                });
-        });
-    </script>
 </body>
 </html>
