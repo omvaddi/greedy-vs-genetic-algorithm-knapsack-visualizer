@@ -1,23 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knapsack Data</title>
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
+        td{
             border: 1px solid #ddd;
             padding: 8px;
-            text-align: center;
         }
-        th {
-            background-color: #f2f2f2;
-        }
-        .highlight {
+        .highlight{
             background-color: yellow;
         }
     </style>
@@ -30,9 +19,9 @@
             <tr>
                 {% for j in range(knapsack.dimensions) %}
                     {% if knapsack.greedy_sol[i][j] == True %}
-                        <td class="highlight">W: {{ knapsack.items[i][j][0] }},  V: {{knapsack.items[i][j][1] }}</td>
+                        <td class = "highlight">W: {{ knapsack.items[i][j][0] }}, V: {{knapsack.items[i][j][1] }}</td>
                     {% else %}
-                        <td> W: {{ knapsack.items[i][j][0] }},  V: {{knapsack.items[i][j][1] }}</td>
+                        <td> W: {{ knapsack.items[i][j][0] }}, V: {{ knapsack.items[i][j][1] }}</td>
                     {% endif %}
                 {% endfor %}
             </tr>
