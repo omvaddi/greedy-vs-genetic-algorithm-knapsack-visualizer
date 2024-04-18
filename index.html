@@ -13,20 +13,46 @@
 </head>
 <body>
     <h2>Greedy Algorithm</h2>
-    <table>
+    <table id="knapsackTable">
         <tbody>
             {% for i in range(knapsack.dimensions) %}
             <tr>
                 {% for j in range(knapsack.dimensions) %}
-                    {% if knapsack.greedy_sol[i][j] == True %}
-                        <td class = "highlight">W: {{ knapsack.items[i][j][0] }}, V: {{knapsack.items[i][j][1] }}</td>
-                    {% else %}
-                        <td> W: {{ knapsack.items[i][j][0] }}, V: {{ knapsack.items[i][j][1] }}</td>
-                    {% endif %}
+                    <td> W: {{ knapsack.items[i][j][0] }}, V: {{ knapsack.items[i][j][1] }}</td>
                 {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <script>
+
+        // allows for access of python variables
+        const dimensions = {{ knapsack.dimensions }};
+        const greedy_sol = {{ knapsack.greedy_sol | tojson }};
+
+
+        const table = document.getElementById('knapsackTable');
+        const cells = table.getElementsByTagName('td');
+
+        let index = 0;
+        function highlightNextCell(){
+            if(index < cells.length) {
+                const cell = cells[index];
+                cell.classList.add('highlight');
+                setTimeout(() => {
+                    if(!greedy_sol[Math.floor(index/dimensions)][index%dimensions]) {
+                        cell.classList.remove('highlight');
+                    }
+                    index++;
+                    highlightNextCell(index);
+                }, 200);
+            }
+        }
+        highlightNextCell();
+
+    </script>
+
+
 </body>
 </html>
