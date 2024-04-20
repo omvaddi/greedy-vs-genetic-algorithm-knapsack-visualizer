@@ -5,20 +5,23 @@
         td{
             border: 1px solid #ddd;
             padding: 8px;
+            font-size: 8px;
+            text-align: center;
         }
         .highlight{
-            background-color: yellow;
+            border: 3px solid green;
+            background: lightgreen;
         }
     </style>
 </head>
 <body style = "background-color: #c7c1c1;">
     <h1>The Knapsack Problem</h1>
-    <p>Given N items each having a set weight and value and also given a knapsack with a weight capacity W maximize the
-        value of the items in the knapsack without going over the weight limit. Click the button to watch both a greedy
-        algorithm and genetic algorithm find a solution to the problem.</p>
+    <p>Given N items with a weight and value as well as a knapsack with a size limit, maximize the
+        value of the items in the knapsack without going over the weight limit. Click the button to watch both greedy
+        algorithm and genetic algorithm solution attempts.</p>
     <button id = "recalculateButton">Recalculate Data</button>
-
-    <h2>Greedy Algorithm</h2>
+    <button id = "greedy_solve">Greedy Solution</button>
+    <h2>Knapsack Matrix</h2>
     <table id="greedyTable">
         <tbody>
             {% for i in range(knapsack.dimensions) %}
@@ -32,6 +35,7 @@
     </table>
 
     <script>
+        let greedy_sol = {{ knapsack.greedy_sol | tojson }};
 
         function fetchRecalculatedData(){
             fetch('/recalculate', {
@@ -61,32 +65,27 @@
                     cell.textContent = "W:" + data.items[i][j][0] + ", V:" + data.items[i][j][1];
                 }
             }
-            highlightNextCell(data, 0);
+            removeHighlight();
+            greedy_sol = data.greedy_solution;
         }
 
         document.getElementById('recalculateButton').addEventListener('click', fetchRecalculatedData);
-
-
+        document.getElementById('greedy_solve').addEventListener('click', greedy_algorithm);
 
         const table = document.getElementById('greedyTable');
         const cells = table.getElementsByTagName('td');
-
-
-        function highlightNextCell(data, index){
-            const dimensions = data.items.length;
-            if(index < cells.length) {
-                const cell = cells[index];
-                cell.classList.add('highlight');
-                setTimeout(() => {
-                    if(!data.greedy_sol[Math.floor(index/dimensions)][index%dimensions]) {
-                        cell.classList.remove('highlight');
-                    }
-                    index++;
-                    highlightNextCell(data, index);
-                }, 20);
+        function greedy_algorithm(){
+            for(let index = 0; index < greedy_sol.length; index++){
+                setTimeout(() =>{
+                    let cell = cells[greedy_sol[index]];
+                    cell.classList.add('highlight');
+                }, index*100);
             }
         }
-        highlightNextCell(data, 0);
+        function removeHighlight(){
+            for(let i = 0; i<cells.length; i++)
+                cells[i].classList.remove('highlight');
+        }
 
     </script>
 
