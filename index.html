@@ -7,13 +7,19 @@
             padding: 8px;
         }
         .highlight{
-            border: 5px solid green
+            background-color: yellow;
         }
     </style>
 </head>
-<body>
+<body style = "background-color: #c7c1c1;">
+    <h1>The Knapsack Problem</h1>
+    <p>Given N items each having a set weight and value and also given a knapsack with a weight capacity W maximize the
+        value of the items in the knapsack without going over the weight limit. Click the button to watch both a greedy
+        algorithm and genetic algorithm find a solution to the problem.</p>
+    <button id = "recalculateButton">Recalculate Data</button>
+
     <h2>Greedy Algorithm</h2>
-    <table id="knapsackTable">
+    <table id="greedyTable">
         <tbody>
             {% for i in range(knapsack.dimensions) %}
             <tr>
@@ -27,32 +33,62 @@
 
     <script>
 
-        // allows for access of python variables
-        const dimensions = {{ knapsack.dimensions }};
-        const greedy_sol = {{ knapsack.greedy_sol | tojson }};
+        function fetchRecalculatedData(){
+            fetch('/recalculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Recacalculation success:', data);
+                    updateTable(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+        }
+
+        function updateTable(data){
+            const greedyTable = document.getElementById('greedyTable');
+            const dimensions = data.items.length;
+            let index = 0;
+
+            for(let i = 0; i < dimensions; i++){
+                for(let j = 0; j < dimensions; j++){
+                    const cell = greedyTable.rows[i].cells[j];
+                    cell.textContent = "W:" + data.items[i][j][0] + ", V:" + data.items[i][j][1];
+                }
+            }
+            highlightNextCell(data, 0);
+        }
+
+        document.getElementById('recalculateButton').addEventListener('click', fetchRecalculatedData);
 
 
-        const table = document.getElementById('knapsackTable');
+
+        const table = document.getElementById('greedyTable');
         const cells = table.getElementsByTagName('td');
 
-        let index = 0;
-        function highlightNextCell(){
+
+        function highlightNextCell(data, index){
+            const dimensions = data.items.length;
             if(index < cells.length) {
                 const cell = cells[index];
                 cell.classList.add('highlight');
                 setTimeout(() => {
-                    if(!greedy_sol[Math.floor(index/dimensions)][index%dimensions]) {
+                    if(!data.greedy_sol[Math.floor(index/dimensions)][index%dimensions]) {
                         cell.classList.remove('highlight');
                     }
                     index++;
-                    highlightNextCell(index);
-                }, 200);
+                    highlightNextCell(data, index);
+                }, 20);
             }
         }
-        highlightNextCell();
+        highlightNextCell(data, 0);
 
     </script>
-
 
 </body>
 </html>
