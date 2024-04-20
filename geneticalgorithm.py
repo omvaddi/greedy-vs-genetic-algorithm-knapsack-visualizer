@@ -1,6 +1,9 @@
 import random
+
+
 class GeneticAlgorithm:
-    def __init__(self, population_size, chromosome_length, crossover_rate, mutation_rate, items, knapsack_capacity, tournament_size):
+    def __init__(self, population_size, chromosome_length, crossover_rate, mutation_rate, items, knapsack_capacity,
+                 tournament_size):
         self.population_size = population_size
         self.chromosome_length = chromosome_length
         self.crossover_rate = crossover_rate
@@ -24,9 +27,9 @@ class GeneticAlgorithm:
         value = 0
         for i in range(self.chromosome_length):
             if chromosome[i] == 1:
-                weight += self.items[i][0] #note this should correspond to weight of knapsack item
-                value += self.items[i][1] #value of the item
-        if weight > self.knapsack_capacity: #check if the total weight is above what we allow
+                weight += self.items[i][0]  # note this should correspond to weight of knapsack item
+                value += self.items[i][1]  # value of the item
+        if weight > self.knapsack_capacity:  # check if the total weight is above what we allow
             return 0
         else:
             return value
@@ -42,7 +45,7 @@ class GeneticAlgorithm:
             tournament_contestants = random.sample(self.population, self.tournament_size)
             winner = max(tournament_contestants, key=lambda chromosome: self.fitness(chromosome))
             selected.append(winner)
-        return selected;
+        return selected
 
     # uniform crossover
     # crossover rate is how often chromosomes will crossover (do 0.5)
@@ -58,13 +61,14 @@ class GeneticAlgorithm:
                 child2.append(parent1[i])
         return child1, child2
 
-    #bitflip mutation
+    # bit-flip mutation
     def mutation(self, chromosome):
         for i in range(self.chromosome_length):
             if random.random() < self.mutation_rate:
                 chromosome[i] = 1 - chromosome[i]
         return chromosome
 
+    # takes care of evolutions
     def evolve(self):
         selected_parents = self.selection()
         new_population = []
@@ -73,7 +77,7 @@ class GeneticAlgorithm:
             if random.random() < self.crossover_rate:
                 child1, child2 = self.crossover(parent1, parent2)
             else:
-                child1, child2 = parent1[:], parent2[:] #copy
+                child1, child2 = parent1[:], parent2[:]  # copy existing genes as is
             child1 = self.mutation(child1)
             child2 = self.mutation(child2)
             new_population.extend([child1, child2])
