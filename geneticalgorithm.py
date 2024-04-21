@@ -100,3 +100,11 @@ class GeneticAlgorithm:
                 self.best_solution = chromosome
                 self.best_fitness = fitness_value
         self.population = new_population
+
+    # grabs indexes of picked boxes and puts them into an array based on our best solution
+    def decode(self):
+        picks = []
+        for i, gene in enumerate(self.best_solution):
+            if gene == 1:
+                picks.append(i)
+        return picks
