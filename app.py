@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import random
+import geneticalgorithm
 app = Flask(__name__)
 class Knapsack:
     def __init__(self):
@@ -53,6 +54,20 @@ class Knapsack:
                 self.greedy_sol.append(selected_index)
                 self.greedy_weight += selected_weight
                 self.greedy_value += selected_value
+
+    # genetic algorithm implementation
+    def genetic(self):
+        algorithm = geneticalgorithm.GeneticAlgorithm(population_size=100, chromosome_length=self.dimensions ** 2,
+                                                      crossover_rate=0.8, mutation_rate=0.05, items=self.items,
+                                                      knapsack_capacity=self.weight, tournament_size=5,
+                                                      dimensions=self.dimensions)
+        generations = 100
+        for _ in range(generations):
+            algorithm.evolve()
+        temp_items = algorithm.get_items()
+        self.genetic_sol = algorithm.decode()
+        self.genetic_weight = sum(temp_items[i][0] for i in self.genetic_sol)
+        self.genetic_value = sum(temp_items[i][1] for i in self.genetic_sol)
 
 
 @app.route('/')
