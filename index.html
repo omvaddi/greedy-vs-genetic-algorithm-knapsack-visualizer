@@ -79,6 +79,8 @@
 
         let latestData = null;
 
+        let solved = false;
+
         function fetchRecalculatedData(){
             fetch('/recalculate', {
                 method: 'POST',
@@ -89,6 +91,7 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Recalculation success:', data);
+                    solved = false;
                     updateTables(data);
                     latestData = data;
                 })
@@ -123,7 +126,10 @@
         });
 
         document.getElementById('solve').addEventListener('click', () => {
-            greedy_algorithm();
+            if(!solved) {
+                greedy_algorithm();
+                genetic_algorithm(0);
+            }
             if (latestData) {
                 greedyWeight = latestData.greedy_weight;
                 greedyValue = latestData.greedy_value
@@ -132,21 +138,47 @@
             document.getElementById('greedyWeight').textContent = "Greedy Weight: " + greedyWeight;
             document.getElementById('greedyValue').textContent = "Greedy Value: " + greedyValue;
 
+            solved = true;
+
         });
 
-        const table = document.getElementById('greedyTable');
-        const cells = table.getElementsByTagName('td');
+        const greedyTable = document.getElementById('greedyTable');
+        const greedyCells = greedyTable.getElementsByTagName('td');
         function greedy_algorithm(){
             for(let index = 0; index < greedy_sol.length; index++){
                 setTimeout(() =>{
-                    let cell = cells[greedy_sol[index]];
+                    let cell = greedyCells[greedy_sol[index]];
                     cell.classList.add('highlight');
                 }, index*100);
             }
         }
+
+
+
+
+        const geneticTable = document.getElementById('geneticTable');
+        const geneticCells = geneticTable.getElementsByTagName('td');
+
+        function genetic_algorithm(index){
+            if(index < geneticCells.length) {
+                const cell = geneticCells[index];
+                cell.classList.add('highlight');
+                setTimeout(() => {
+                    if(!greedy_sol.includes(index)) {
+                        cell.classList.remove('highlight');
+                    }
+                    index++;
+                    genetic_algorithm(index);
+                }, 11);
+            }
+        }
+
+
         function removeHighlight(){
-            for(let i = 0; i < cells.length; i++)
-                cells[i].classList.remove('highlight');
+            for(let i = 0; i < greedyCells.length; i++) {
+                greedyCells[i].classList.remove('highlight');
+                geneticCells[i].classList.remove('highlight');
+            }
         }
     </script>
 
