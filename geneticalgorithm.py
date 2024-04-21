@@ -108,3 +108,7 @@ class GeneticAlgorithm:
             if gene == 1:
                 picks.append(i)
         return picks
+
+    # returns items
+    def get_items(self):
+        return self.items
