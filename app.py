@@ -68,16 +68,14 @@ class Knapsack:
         self.genetic_sol = algorithm.decode()
         self.genetic_weight = sum(temp_items[i][0] for i in self.genetic_sol)
         self.genetic_value = sum(temp_items[i][1] for i in self.genetic_sol)
+        print(self.genetic_sol)
 
 
 @app.route('/')
 def index():
     knapsack = Knapsack()
     knapsack.greedy()
-    for row in knapsack.items:
-        print(row)
-    for row in knapsack.greedy_sol:
-        print(row)
+    knapsack.genetic()
     return render_template('index.html', knapsack=knapsack)
 
 
@@ -85,9 +83,12 @@ def index():
 def recalculate():
     knapsack = Knapsack()
     knapsack.greedy()
+    knapsack.genetic()
     # package data for html
     recalculated_data = {'items': knapsack.items, "greedy_solution": knapsack.greedy_sol,
-                         "greedy_weight": knapsack.greedy_weight, "greedy_value": knapsack.greedy_value}
+                         "greedy_weight": knapsack.greedy_weight, "greedy_value": knapsack.greedy_value,
+                         "genetic_solution": knapsack.genetic_sol, "genetic_weight": knapsack.genetic_weight,
+                         "genetic_value": knapsack.genetic_value}
     return jsonify(recalculated_data)
 
 

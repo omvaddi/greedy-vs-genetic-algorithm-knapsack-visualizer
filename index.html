@@ -14,7 +14,7 @@
         }
         .table-container{
             float: left;
-            margin-right: 40px;
+            margin-right: 70px;
         }
         .button-container{
             margin-bottom: 20px;
@@ -115,6 +115,7 @@
             }
             removeHighlight();
             greedy_sol = data.greedy_solution;
+            genetic_sol = data.genetic_solution;
         }
 
         document.getElementById('recalculateButton').addEventListener('click', () => {
@@ -133,13 +134,15 @@
             if (latestData) {
                 greedyWeight = latestData.greedy_weight;
                 greedyValue = latestData.greedy_value
-
+                geneticWeight = latestData.genetic_weight;
+                geneticValue = latestData.genetic_value
             }
             document.getElementById('greedyWeight').textContent = "Greedy Weight: " + greedyWeight;
             document.getElementById('greedyValue').textContent = "Greedy Value: " + greedyValue;
+            document.getElementById('geneticWeight').textContent = "Genetic Weight: " + geneticWeight;
+            document.getElementById('geneticValue').textContent = "Genetic Value: " + geneticValue;
 
             solved = true;
-
         });
 
         const greedyTable = document.getElementById('greedyTable');
@@ -164,7 +167,7 @@
                 const cell = geneticCells[index];
                 cell.classList.add('highlight');
                 setTimeout(() => {
-                    if(!greedy_sol.includes(index)) {
+                    if(!genetic_sol.includes(index)) {
                         cell.classList.remove('highlight');
                     }
                     index++;
