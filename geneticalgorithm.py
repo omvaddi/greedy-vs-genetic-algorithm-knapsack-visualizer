@@ -14,6 +14,8 @@ class GeneticAlgorithm:
         self.tournament_size = tournament_size
         self.dimensions = dimensions
         self.convert_items()
+        self.best_solution = None
+        self.best_fitness = float('-inf')
 
     # converts items into a list for program
     def convert_items(self):
@@ -91,4 +93,10 @@ class GeneticAlgorithm:
             child1 = self.mutation(child1)
             child2 = self.mutation(child2)
             new_population.extend([child1, child2])
+        # keep track of the best solution
+        for chromosome in new_population:
+            fitness_value = self.fitness(chromosome)
+            if fitness_value > self.best_fitness:
+                self.best_solution = chromosome
+                self.best_fitness = fitness_value
         self.population = new_population
