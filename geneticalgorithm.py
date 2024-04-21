@@ -3,7 +3,7 @@ import random
 
 class GeneticAlgorithm:
     def __init__(self, population_size, chromosome_length, crossover_rate, mutation_rate, items, knapsack_capacity,
-                 tournament_size):
+                 tournament_size, dimensions):
         self.population_size = population_size
         self.chromosome_length = chromosome_length
         self.crossover_rate = crossover_rate
@@ -12,12 +12,22 @@ class GeneticAlgorithm:
         self.knapsack_capacity = knapsack_capacity
         self.population = self.initialize_population()
         self.tournament_size = tournament_size
+        self.dimensions = dimensions
+        self.convert_items()
+
+    # converts items into a list for program
+    def convert_items(self):
+        n_items = []
+        for i in range(self.dimensions):
+            for j in range(self.dimensions):
+                n_items.append(self.items[i][j])
+        self.items = n_items
 
     # create the initial population of solutions (all random)
     def initialize_population(self):
         population = []
         for _ in range(self.population_size):
-            chromosome = [random.randint(0,1) for _ in range(self.chromosome_length)]
+            chromosome = [random.randint(0, 1) for _ in range(self.chromosome_length)]
             population.append(chromosome)
         return population
 
@@ -82,5 +92,3 @@ class GeneticAlgorithm:
             child2 = self.mutation(child2)
             new_population.extend([child1, child2])
         self.population = new_population
-
-
