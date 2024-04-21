@@ -6,6 +6,8 @@ class Knapsack:
         self.items = []
         self.dimensions = 10
         self.greedy_sol = []
+        self.greedy_weight = 0
+        self.greedy_value = 0
         self.create_data()
         self.weight = 30
 
@@ -28,18 +30,23 @@ class Knapsack:
             best_ratio = float('-inf')
             selected_index = -1
             selected_weight = 0
+            selected_value = 0
             for i in range(self.dimensions):
                 for j in range(self.dimensions):
                     weight = self.items[i][j][0]
+                    value = self.items[i][j][1]
                     ratio = self.items[i][j][1] / weight
-                    this_index = i * self.dimensions + j
+                    this_index = (i * self.dimensions) + j
                     if ratio > best_ratio and weight <= available_space and this_index not in self.greedy_sol:
                         best_ratio = ratio
                         selected_weight = weight
+                        selected_value = value
                         selected_index = this_index
             if selected_index != -1:
                 available_space -= selected_weight
                 self.greedy_sol.append(selected_index)
+                self.greedy_weight += selected_weight
+                self.greedy_value += selected_value
 
 
 @app.route('/')
@@ -58,7 +65,8 @@ def recalculate():
     knapsack = Knapsack()
     knapsack.greedy()
     # package data for html
-    recalculated_data = {'items': knapsack.items, "greedy_solution": knapsack.greedy_sol}
+    recalculated_data = {'items': knapsack.items, "greedy_solution": knapsack.greedy_sol,
+                         "greedy_weight": knapsack.greedy_weight, "greedy_value": knapsack.greedy_value}
     return jsonify(recalculated_data)
 
 

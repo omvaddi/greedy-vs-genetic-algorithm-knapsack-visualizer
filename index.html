@@ -33,9 +33,16 @@
             {% endfor %}
         </tbody>
     </table>
+    <div id = "greedy totals">
+        <p id = "greedyWeight">Greedy Weight: </p>
+        <p id = "greedyValue">Greedy Value:</p>
+    </div>
 
     <script>
         let greedy_sol = {{ knapsack.greedy_sol | tojson }};
+        let greedyWeight = {{ knapsack.greedy_weight}};
+        let greedyValue = {{ knapsack.greedy_value}};
+        let latestData = null;
 
         function fetchRecalculatedData(){
             fetch('/recalculate', {
@@ -46,8 +53,9 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Recacalculation success:', data);
+                    console.log('Recalculation success:', data);
                     updateTable(data);
+                    latestData = data;
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -69,8 +77,21 @@
             greedy_sol = data.greedy_solution;
         }
 
-        document.getElementById('recalculateButton').addEventListener('click', fetchRecalculatedData);
-        document.getElementById('greedy_solve').addEventListener('click', greedy_algorithm);
+        document.getElementById('recalculateButton').addEventListener('click', () => {
+            fetchRecalculatedData();
+            document.getElementById('greedyWeight').textContent = "Greedy Weight: ";
+            document.getElementById('greedyValue').textContent = "Greedy Value: ";
+        });
+
+        document.getElementById('greedy_solve').addEventListener('click', () => {
+            greedy_algorithm();
+            if (latestData) {
+                greedyWeight = latestData.greedy_weight;
+                greedyValue = latestData.greedy_value
+            }
+            document.getElementById('greedyWeight').textContent = "Greedy Weight: " + greedyWeight;
+            document.getElementById('greedyValue').textContent = "Greedy Value: " + greedyValue;
+        });
 
         const table = document.getElementById('greedyTable');
         const cells = table.getElementsByTagName('td');
@@ -83,9 +104,10 @@
             }
         }
         function removeHighlight(){
-            for(let i = 0; i<cells.length; i++)
+            for(let i = 0; i < cells.length; i++)
                 cells[i].classList.remove('highlight');
         }
+
 
     </script>
 
