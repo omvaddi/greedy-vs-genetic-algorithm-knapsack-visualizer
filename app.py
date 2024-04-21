@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify
 import random
 import geneticalgorithm
 app = Flask(__name__)
+
+
 class Knapsack:
     def __init__(self):
         self.items = []
@@ -18,7 +20,6 @@ class Knapsack:
         self.create_data()
         self.weight = 30
 
-
     def create_data(self):
         for i in range(self.dimensions):
             row = []
@@ -27,7 +28,6 @@ class Knapsack:
                 value = random.randint(1, 20)
                 row.append((weight, value))
             self.items.append(row)
-
 
     def greedy(self):
         self.greedy_sol.clear()
