@@ -5,9 +5,15 @@ class Knapsack:
     def __init__(self):
         self.items = []
         self.dimensions = 10
+
         self.greedy_sol = []
         self.greedy_weight = 0
         self.greedy_value = 0
+
+        self.genetic_sol = []
+        self.genetic_weight = 0
+        self.genetic_value = 0
+
         self.create_data()
         self.weight = 30
 

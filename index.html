@@ -3,7 +3,7 @@
 <head>
     <style>
         td{
-            border: 1px solid #ddd;
+            border: 3px solid #ddd;
             padding: 8px;
             font-size: 8px;
             text-align: center;
@@ -12,6 +12,14 @@
             border: 3px solid green;
             background: lightgreen;
         }
+        .table-container{
+            float: left;
+            margin-right: 40px;
+        }
+        .button-container{
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <body style = "background-color: #c7c1c1;">
@@ -19,29 +27,56 @@
     <p>Given N items with a weight and value as well as a knapsack with a size limit, maximize the
         value of the items in the knapsack without going over the weight limit. Click the button to watch both greedy
         algorithm and genetic algorithm solution attempts.</p>
-    <button id = "recalculateButton">Recalculate Data</button>
-    <button id = "greedy_solve">Greedy Solution</button>
-    <h2>Knapsack Matrix</h2>
-    <table id="greedyTable">
-        <tbody>
-            {% for i in range(knapsack.dimensions) %}
-            <tr>
-                {% for j in range(knapsack.dimensions) %}
-                    <td> W: {{ knapsack.items[i][j][0] }}, V: {{ knapsack.items[i][j][1] }}</td>
+    <div class = "button-container">
+        <button id = "recalculateButton">Recalculate Data</button>
+        <button id = "solve">Solutions</button>
+    </div>
+    <div class = "table-container">
+        <h2>Greedy Matrix</h2>
+        <table id="greedyTable">
+            <tbody>
+                {% for i in range(knapsack.dimensions) %}
+                <tr>
+                    {% for j in range(knapsack.dimensions) %}
+                        <td> W: {{ knapsack.items[i][j][0] }}, V: {{ knapsack.items[i][j][1] }}</td>
+                    {% endfor %}
+                </tr>
                 {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div id = "greedy totals">
-        <p id = "greedyWeight">Greedy Weight: </p>
-        <p id = "greedyValue">Greedy Value:</p>
+            </tbody>
+        </table>
+        <div id = "greedy totals">
+            <p id = "greedyWeight">Greedy Weight: </p>
+            <p id = "greedyValue">Greedy Value:</p>
+        </div>
+    </div>
+    <div class = "table-container">
+        <h2>Genetic Matrix</h2>
+        <table id="geneticTable">
+            <tbody>
+                {% for i in range(knapsack.dimensions) %}
+                <tr>
+                    {% for j in range(knapsack.dimensions) %}
+                        <td> W: {{ knapsack.items[i][j][0] }}, V: {{ knapsack.items[i][j][1] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div id = "genetic totals">
+            <p id = "geneticWeight">Genetic Weight: </p>
+            <p id = "geneticValue">Genetic Value:</p>
+        </div>
     </div>
 
     <script>
         let greedy_sol = {{ knapsack.greedy_sol | tojson }};
         let greedyWeight = {{ knapsack.greedy_weight}};
         let greedyValue = {{ knapsack.greedy_value}};
+
+        let genetic_sol = {{ knapsack.genetic_sol | tojson }};
+        let geneticWeight = {{ knapsack.genetic_weight}};
+        let geneticValue = {{ knapsack.genetic_value}};
+
         let latestData = null;
 
         function fetchRecalculatedData(){
@@ -54,7 +89,7 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Recalculation success:', data);
-                    updateTable(data);
+                    updateTables(data);
                     latestData = data;
                 })
                 .catch(error => {
@@ -62,15 +97,17 @@
                 })
         }
 
-        function updateTable(data){
+        function updateTables(data){
             const greedyTable = document.getElementById('greedyTable');
+            const geneticTable = document.getElementById('geneticTable');
             const dimensions = data.items.length;
-            let index = 0;
 
             for(let i = 0; i < dimensions; i++){
                 for(let j = 0; j < dimensions; j++){
-                    const cell = greedyTable.rows[i].cells[j];
-                    cell.textContent = "W:" + data.items[i][j][0] + ", V:" + data.items[i][j][1];
+                    const greedyCell = greedyTable.rows[i].cells[j];
+                    const geneticCell = geneticTable.rows[i].cells[j];
+                    greedyCell.textContent = "W:" + data.items[i][j][0] + ", V:" + data.items[i][j][1];
+                    geneticCell.textContent = "W:" + data.items[i][j][0] + ", V:" + data.items[i][j][1];
                 }
             }
             removeHighlight();
@@ -81,16 +118,20 @@
             fetchRecalculatedData();
             document.getElementById('greedyWeight').textContent = "Greedy Weight: ";
             document.getElementById('greedyValue').textContent = "Greedy Value: ";
+            document.getElementById('geneticWeight').textContent = "Genetic Weight: ";
+            document.getElementById('geneticValue').textContent = "Genetic Value: ";
         });
 
-        document.getElementById('greedy_solve').addEventListener('click', () => {
+        document.getElementById('solve').addEventListener('click', () => {
             greedy_algorithm();
             if (latestData) {
                 greedyWeight = latestData.greedy_weight;
                 greedyValue = latestData.greedy_value
+
             }
             document.getElementById('greedyWeight').textContent = "Greedy Weight: " + greedyWeight;
             document.getElementById('greedyValue').textContent = "Greedy Value: " + greedyValue;
+
         });
 
         const table = document.getElementById('greedyTable');
@@ -107,8 +148,6 @@
             for(let i = 0; i < cells.length; i++)
                 cells[i].classList.remove('highlight');
         }
-
-
     </script>
 
 </body>
