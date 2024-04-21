@@ -19,10 +19,7 @@ class GeneticAlgorithm:
 
     # converts items into a list for program
     def convert_items(self):
-        n_items = []
-        for i in range(self.dimensions):
-            for j in range(self.dimensions):
-                n_items.append(self.items[i][j])
+        n_items = [item for row in self.items for item in row]
         self.items = n_items
 
     # create the initial population of solutions (all random)
@@ -33,15 +30,15 @@ class GeneticAlgorithm:
             population.append(chromosome)
         return population
 
-    # evaluates the fitness of a solution (chromosome)
     def fitness(self, chromosome):
         weight = 0
         value = 0
         for i in range(self.chromosome_length):
             if chromosome[i] == 1:
-                weight += self.items[i][0]  # note this should correspond to weight of knapsack item
-                value += self.items[i][1]  # value of the item
-        if weight > self.knapsack_capacity:  # check if the total weight is above what we allow
+                item_index = i * 2
+                weight += self.items[item_index]
+                value += self.items[item_index + 1]
+        if weight > self.knapsack_capacity:
             return 0
         else:
             return value
