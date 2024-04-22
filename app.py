@@ -4,6 +4,7 @@ import geneticalgorithm
 import json
 app = Flask(__name__)
 
+
 # knapsack class definition
 class Knapsack:
     def __init__(self):
