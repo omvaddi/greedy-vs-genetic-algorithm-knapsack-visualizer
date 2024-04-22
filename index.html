@@ -1,7 +1,13 @@
 <!DOCTYPE html>
-
+<!-- Webpage formatting -->
 <head>
     <style>
+        h1, p, h2{
+            font-family: "Roboto Light",sans-serif;
+        }
+        h1{
+            text-align: center;
+        }
         td{
             border: 3px solid #ddd;
             padding: 8px;
@@ -38,18 +44,18 @@
             background-color: white;
             transform: scale(1.1);
         }
+
     </style>
 </head>
-<body style = "background-color: #c7c1c1;">
-    <h1>The Knapsack Problem</h1>
-    <p>The Knapsack Problem presents an assortment of items as well as a knapsack. Each item has its own weight and
-        value and the knapsack has a weight limit. The goal of the problem is to maximize the value of the items put
-        into the knapsack without going over its weight limit. Press the solve button below to watch both a greedy and
-        genetic algorithm try to solve the problem.
-    </p>
+<!-- Foundational display -->
+<body style = "background-color: #cacaca;">
+    <h1>Knapsack Problem</h1>
+    <p>Given N items with a weight and value as well as a knapsack with a weight limit (400), maximize the
+        value of the items in the knapsack without going over the weight limit. Click the button to watch both greedy
+        algorithm and genetic algorithm solution attempts.</p>
     <div class = "button-container">
         <button id = "recalculateButton">Recalculate Data</button>
-        <button id = "solve">Solve</button>
+        <button id = "solve">Solutions</button>
     </div>
     <div class = "table-container">
         <h2>Greedy Matrix</h2>
@@ -89,9 +95,7 @@
     </div>
 
     <script>
-
-        let weight = {{ knapsack.weight | tojson }};
-
+        // Script to display and animate results from algorithms in .py files
         let greedy_sol = {{ knapsack.greedy_sol | tojson }};
         let greedyWeight = {{ knapsack.greedy_weight}};
         let greedyValue = {{ knapsack.greedy_value}};
@@ -163,15 +167,10 @@
             document.getElementById('greedyWeight').textContent = "Greedy Weight: " + greedyWeight;
             document.getElementById('greedyValue').textContent = "Greedy Value: " + greedyValue;
             document.getElementById('geneticWeight').textContent = "Genetic Weight: " + geneticWeight;
-            if(geneticWeight > weight)
-                document.getElementById('geneticValue').textContent = "Genetic Value: no solution";
-            else
-                document.getElementById('geneticValue').textContent = "Genetic Value: " + geneticValue;
+            document.getElementById('geneticValue').textContent = "Genetic Value: " + geneticValue;
 
             solved = true;
         });
-
-
         document.getElementById('greedyWeight').addEventListener('mouseenter', () => {
             document.getElementById('greedyWeight').classList.add('bold');
         })
@@ -196,8 +195,6 @@
         document.getElementById('geneticValue').addEventListener('mouseleave', () => {
             document.getElementById('geneticValue').classList.remove('bold');
         })
-
-
         const greedyTable = document.getElementById('greedyTable');
         const greedyCells = greedyTable.getElementsByTagName('td');
         function greedy_algorithm(){
@@ -208,6 +205,8 @@
                 }, index*50);
             }
         }
+
+
 
 
         const geneticTable = document.getElementById('geneticTable');
@@ -223,11 +222,9 @@
                     }
                     index++;
                     genetic_algorithm(index);
-                }, 15);
+                }, 25);
             }
         }
-
-
         function removeHighlight(){
             for(let i = 0; i < greedyCells.length; i++) {
                 greedyCells[i].classList.remove('highlight');
