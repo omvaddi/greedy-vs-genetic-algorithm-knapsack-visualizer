@@ -17,7 +17,7 @@ class Knapsack:
         self.genetic_value = 0
 
         self.create_data()
-        self.weight = 300
+        self.weight = 400
 
     def create_data(self):
         with open('data.json', 'r') as json_file:
