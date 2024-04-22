@@ -4,7 +4,7 @@ import geneticalgorithm
 import json
 app = Flask(__name__)
 
-
+# knapsack class definition
 class Knapsack:
     def __init__(self):
         self.items = []
@@ -19,6 +19,7 @@ class Knapsack:
         self.create_data()
         self.weight = 400
 
+# creates 100,000 data points
     def create_data(self):
         with open('data.json', 'r') as json_file:
             data = json.load(json_file)
@@ -29,7 +30,7 @@ class Knapsack:
                     row.append(data[random.randint(0, 100000)])
                 self.items.append(row)
 
-
+# updates greedy_sol with solution in order of greatest value/weight to lowest. Also updates greedy weight and value
     def greedy(self):
         self.greedy_sol.clear()
         selected_index = 0
@@ -73,7 +74,7 @@ class Knapsack:
             self.genetic_value = 0
         print(self.genetic_sol)
 
-
+# sets up Flask route and HTML template
 @app.route('/')
 def index():
     knapsack = Knapsack()
@@ -81,7 +82,7 @@ def index():
     knapsack.genetic()
     return render_template('index.html', knapsack=knapsack)
 
-
+# recalculates data and sends it to the html side
 @app.route('/recalculate', methods=['POST'])
 def recalculate():
     knapsack = Knapsack()
