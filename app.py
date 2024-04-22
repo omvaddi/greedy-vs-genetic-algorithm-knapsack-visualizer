@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import random
 import geneticalgorithm
+import json
 app = Flask(__name__)
 
 
@@ -8,11 +9,9 @@ class Knapsack:
     def __init__(self):
         self.items = []
         self.dimensions = 10
-
         self.greedy_sol = []
         self.greedy_weight = 0
         self.greedy_value = 0
-
         self.genetic_sol = []
         self.genetic_weight = 0
         self.genetic_value = 0
@@ -21,13 +20,15 @@ class Knapsack:
         self.weight = 300
 
     def create_data(self):
-        for i in range(self.dimensions):
-            row = []
-            for j in range(self.dimensions):
-                weight = random.randint(1, 20)
-                value = random.randint(1, 20)
-                row.append((weight, value))
-            self.items.append(row)
+        with open('data.json', 'r') as json_file:
+            data = json.load(json_file)
+            self.items = []
+            for i in range(self.dimensions):
+                row = []
+                for j in range(self.dimensions):
+                    row.append(data[random.randint(0, 100000)])
+                self.items.append(row)
+
 
     def greedy(self):
         self.greedy_sol.clear()
