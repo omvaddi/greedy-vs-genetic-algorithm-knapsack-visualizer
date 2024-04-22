@@ -112,3 +112,4 @@ class GeneticAlgorithm:
     # returns items
     def get_items(self):
         return self.items
+        
