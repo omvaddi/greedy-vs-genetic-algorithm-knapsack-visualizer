@@ -38,17 +38,18 @@
             background-color: white;
             transform: scale(1.1);
         }
-
     </style>
 </head>
 <body style = "background-color: #c7c1c1;">
     <h1>The Knapsack Problem</h1>
-    <p>Given N items with a weight and value as well as a knapsack with a size limit, maximize the
-        value of the items in the knapsack without going over the weight limit. Click the button to watch both greedy
-        algorithm and genetic algorithm solution attempts.</p>
+    <p>The Knapsack Problem presents an assortment of items as well as a knapsack. Each item has its own weight and
+        value and the knapsack has a weight limit. The goal of the problem is to maximize the value of the items put
+        into the knapsack without going over its weight limit. Press the solve button below to watch both a greedy and
+        genetic algorithm try to solve the problem.
+    </p>
     <div class = "button-container">
         <button id = "recalculateButton">Recalculate Data</button>
-        <button id = "solve">Solutions</button>
+        <button id = "solve">Solve</button>
     </div>
     <div class = "table-container">
         <h2>Greedy Matrix</h2>
@@ -88,6 +89,9 @@
     </div>
 
     <script>
+
+        let weight = {{ knapsack.weight | tojson }};
+
         let greedy_sol = {{ knapsack.greedy_sol | tojson }};
         let greedyWeight = {{ knapsack.greedy_weight}};
         let greedyValue = {{ knapsack.greedy_value}};
@@ -159,10 +163,15 @@
             document.getElementById('greedyWeight').textContent = "Greedy Weight: " + greedyWeight;
             document.getElementById('greedyValue').textContent = "Greedy Value: " + greedyValue;
             document.getElementById('geneticWeight').textContent = "Genetic Weight: " + geneticWeight;
-            document.getElementById('geneticValue').textContent = "Genetic Value: " + geneticValue;
+            if(geneticWeight > weight)
+                document.getElementById('geneticValue').textContent = "Genetic Value: no solution";
+            else
+                document.getElementById('geneticValue').textContent = "Genetic Value: " + geneticValue;
 
             solved = true;
         });
+
+
         document.getElementById('greedyWeight').addEventListener('mouseenter', () => {
             document.getElementById('greedyWeight').classList.add('bold');
         })
@@ -187,6 +196,8 @@
         document.getElementById('geneticValue').addEventListener('mouseleave', () => {
             document.getElementById('geneticValue').classList.remove('bold');
         })
+
+
         const greedyTable = document.getElementById('greedyTable');
         const greedyCells = greedyTable.getElementsByTagName('td');
         function greedy_algorithm(){
@@ -197,8 +208,6 @@
                 }, index*50);
             }
         }
-
-
 
 
         const geneticTable = document.getElementById('geneticTable');
@@ -214,7 +223,7 @@
                     }
                     index++;
                     genetic_algorithm(index);
-                }, 11);
+                }, 15);
             }
         }
 
