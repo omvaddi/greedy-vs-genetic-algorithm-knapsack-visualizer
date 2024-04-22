@@ -109,6 +109,7 @@
 
         let solved = false;
 
+        # gets recalculated data from the server
         function fetchRecalculatedData(){
             fetch('/recalculate', {
                 method: 'POST',
@@ -128,11 +129,13 @@
                 })
         }
 
+        
+        # updates table visuals based on new data
         function updateTables(data){
             const greedyTable = document.getElementById('greedyTable');
             const geneticTable = document.getElementById('geneticTable');
             const dimensions = data.items.length;
-
+            
             for(let i = 0; i < dimensions; i++){
                 for(let j = 0; j < dimensions; j++){
                     const greedyCell = greedyTable.rows[i].cells[j];
@@ -146,6 +149,8 @@
             genetic_sol = data.genetic_solution;
         }
 
+        
+        # buttons
         document.getElementById('recalculateButton').addEventListener('click', () => {
             fetchRecalculatedData();
             document.getElementById('greedyWeight').textContent = "Greedy Weight: ";
@@ -172,6 +177,9 @@
 
             solved = true;
         });
+
+        
+        # element expansion and shrinking
         document.getElementById('greedyWeight').addEventListener('mouseenter', () => {
             document.getElementById('greedyWeight').classList.add('bold');
         })
@@ -196,6 +204,9 @@
         document.getElementById('geneticValue').addEventListener('mouseleave', () => {
             document.getElementById('geneticValue').classList.remove('bold');
         })
+
+        
+        # greedy algorithm animation
         const greedyTable = document.getElementById('greedyTable');
         const greedyCells = greedyTable.getElementsByTagName('td');
         function greedy_algorithm(){
@@ -207,9 +218,8 @@
             }
         }
 
-
-
-
+        
+        # genetic algorithm animation
         const geneticTable = document.getElementById('geneticTable');
         const geneticCells = geneticTable.getElementsByTagName('td');
 
@@ -226,6 +236,8 @@
                 }, 25);
             }
         }
+
+        # removes highlighting of boxes
         function removeHighlight(){
             for(let i = 0; i < greedyCells.length; i++) {
                 greedyCells[i].classList.remove('highlight');
@@ -233,6 +245,5 @@
             }
         }
     </script>
-
 </body>
 </html>
