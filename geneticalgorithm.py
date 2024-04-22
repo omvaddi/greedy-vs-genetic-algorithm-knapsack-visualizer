@@ -49,7 +49,7 @@ class GeneticAlgorithm:
     # do tournament selection
     # current selected will be equal to the population size
     # notes: change tournament size to have more chromosomes compete against each other. definitely want this less than
-    # 1/2 of the population size. lamda function here basically uses our fitness function as a key
+    # 1/2 of the population size. lambda function here basically uses our fitness function as a key
     # chromosome is an arbitrary variable
     def selection(self):
         selected = []

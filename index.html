@@ -8,9 +8,16 @@
             font-size: 8px;
             text-align: center;
         }
+        td:hover{
+            transform: scale(1.2);
+            background: lightgoldenrodyellow;
+        }
         .highlight{
             border: 3px solid green;
             background: lightgreen;
+        }
+        .bold{
+            font-weight: bold;
         }
         .table-container{
             float: left;
@@ -18,6 +25,18 @@
         }
         .button-container{
             margin-bottom: 20px;
+
+        }
+        button{
+            padding: 6px 10px;
+            font-size: 14px;
+            background-color: cornflowerblue;
+            border: none;
+            margin-right: 10px;
+        }
+        button:hover{
+            background-color: white;
+            transform: scale(1.1);
         }
 
     </style>
@@ -144,7 +163,30 @@
 
             solved = true;
         });
-
+        document.getElementById('greedyWeight').addEventListener('mouseenter', () => {
+            document.getElementById('greedyWeight').classList.add('bold');
+        })
+        document.getElementById('greedyWeight').addEventListener('mouseleave', () => {
+            document.getElementById('greedyWeight').classList.remove('bold');
+        })
+        document.getElementById('greedyValue').addEventListener('mouseenter', () => {
+            document.getElementById('greedyValue').classList.add('bold');
+        })
+        document.getElementById('greedyValue').addEventListener('mouseleave', () => {
+            document.getElementById('greedyValue').classList.remove('bold');
+        })
+        document.getElementById('geneticWeight').addEventListener('mouseenter', () => {
+            document.getElementById('geneticWeight').classList.add('bold');
+        })
+        document.getElementById('geneticWeight').addEventListener('mouseleave', () => {
+            document.getElementById('geneticWeight').classList.remove('bold');
+        })
+        document.getElementById('geneticValue').addEventListener('mouseenter', () => {
+            document.getElementById('geneticValue').classList.add('bold');
+        })
+        document.getElementById('geneticValue').addEventListener('mouseleave', () => {
+            document.getElementById('geneticValue').classList.remove('bold');
+        })
         const greedyTable = document.getElementById('greedyTable');
         const greedyCells = greedyTable.getElementsByTagName('td');
         function greedy_algorithm(){
@@ -152,7 +194,7 @@
                 setTimeout(() =>{
                     let cell = greedyCells[greedy_sol[index]];
                     cell.classList.add('highlight');
-                }, index*100);
+                }, index*50);
             }
         }
 
