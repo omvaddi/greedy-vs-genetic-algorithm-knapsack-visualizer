@@ -19,7 +19,7 @@ class Knapsack:
         self.create_data()
         self.weight = 400
 
-# creates 100,000 data points
+    # creates 100,000 data points
     def create_data(self):
         with open('data.json', 'r') as json_file:
             data = json.load(json_file)
@@ -30,7 +30,7 @@ class Knapsack:
                     row.append(data[random.randint(0, 100000)])
                 self.items.append(row)
 
-# updates greedy_sol with solution in order of greatest value/weight to lowest. Also updates greedy weight and value
+    # updates greedy_sol with solution in order of greatest value/weight to lowest. Also updates greedy weight and value
     def greedy(self):
         self.greedy_sol.clear()
         selected_index = 0
