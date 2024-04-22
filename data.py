@@ -8,6 +8,7 @@ class Data:
         self.max_val = max_val
         self.data = []
 
+    # generates 100,000 weights and values
     def generate(self):
         for i in range(100000):
             weight = random.randint(1, self.max_val)
