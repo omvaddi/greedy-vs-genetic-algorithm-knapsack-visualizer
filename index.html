@@ -109,6 +109,8 @@
 
         let solved = false;
 
+
+        // gets recalculated data from the server
         function fetchRecalculatedData(){
             fetch('/recalculate', {
                 method: 'POST',
@@ -128,6 +130,8 @@
                 })
         }
 
+
+        // updates the table display with new data
         function updateTables(data){
             const greedyTable = document.getElementById('greedyTable');
             const geneticTable = document.getElementById('geneticTable');
@@ -146,6 +150,8 @@
             genetic_sol = data.genetic_solution;
         }
 
+
+        // recalculate and solve button
         document.getElementById('recalculateButton').addEventListener('click', () => {
             fetchRecalculatedData();
             document.getElementById('greedyWeight').textContent = "Greedy Weight: ";
@@ -172,6 +178,9 @@
 
             solved = true;
         });
+
+
+        // hovering animations
         document.getElementById('greedyWeight').addEventListener('mouseenter', () => {
             document.getElementById('greedyWeight').classList.add('bold');
         })
@@ -196,6 +205,9 @@
         document.getElementById('geneticValue').addEventListener('mouseleave', () => {
             document.getElementById('geneticValue').classList.remove('bold');
         })
+
+
+        // greedy animation
         const greedyTable = document.getElementById('greedyTable');
         const greedyCells = greedyTable.getElementsByTagName('td');
         function greedy_algorithm(){
@@ -208,8 +220,7 @@
         }
 
 
-
-
+        // genetic animation
         const geneticTable = document.getElementById('geneticTable');
         const geneticCells = geneticTable.getElementsByTagName('td');
 
@@ -226,6 +237,9 @@
                 }, 25);
             }
         }
+
+
+        // removes highlights of boxes
         function removeHighlight(){
             for(let i = 0; i < greedyCells.length; i++) {
                 greedyCells[i].classList.remove('highlight');
@@ -233,6 +247,5 @@
             }
         }
     </script>
-
 </body>
 </html>
