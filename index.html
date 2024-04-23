@@ -31,6 +31,7 @@
         }
         .button-container{
             margin-bottom: 20px;
+
         }
         button{
             padding: 6px 10px;
@@ -43,6 +44,7 @@
             background-color: white;
             transform: scale(1.1);
         }
+
     </style>
 </head>
 <!-- Foundational display -->
@@ -95,8 +97,6 @@
 
     <script>
         // Script to display and animate results from algorithms in .py files
-        let weight = {{ knapsack.weight | tojson }};
-        
         let greedy_sol = {{ knapsack.greedy_sol | tojson }};
         let greedyWeight = {{ knapsack.greedy_weight}};
         let greedyValue = {{ knapsack.greedy_value}};
@@ -168,10 +168,7 @@
             document.getElementById('greedyWeight').textContent = "Greedy Weight: " + greedyWeight;
             document.getElementById('greedyValue').textContent = "Greedy Value: " + greedyValue;
             document.getElementById('geneticWeight').textContent = "Genetic Weight: " + geneticWeight;
-            if(greedyWeight > weight)
-                document.getElementById('geneticValue').textContent = "Genetic Value: no solution;
-            else
-                document.getElementById('geneticValue').textContent = "Genetic Value: " + geneticValue;
+            document.getElementById('geneticValue').textContent = "Genetic Value: " + geneticValue;
 
             solved = true;
         });
