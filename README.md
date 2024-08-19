@@ -1,4 +1,4 @@
-# DSA_FinalProject
+# greedy-vs-genetic-algorithm-knapsack-visualizer
 
 Instructions:
 1. Download zipfile on pycharm and make a flask project. Drag all the files into the project.
